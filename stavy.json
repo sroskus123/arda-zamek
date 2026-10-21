@@ -1,9 +1,9 @@
 {
   "platnost_hodin": 24,
   "servery": {
-    "pribehy-ardy": "zamceno"
+    "pribehy-ardy": "povoleno"
   },
   "licence": {
-    "majitel-rene": "zamceno"
+    "majitel-rene": "povoleno"
   }
 }
