@@ -1,0 +1,38 @@
+# Po každé změně v hlavní větvi podepíše stavy.json klíčem seznamu a zveřejní web/povolene.json na GitHub Pages.
+name: Podepsat a zveřejnit seznam
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  podepsat:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.zverejneni.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Podepsat stavy a složit seznam
+        run: node podepis.mjs
+        env:
+          SEZNAM_TAJNY: ${{ secrets.SEZNAM_TAJNY }}
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: web
+      - id: zverejneni
+        uses: actions/deploy-pages@v4
