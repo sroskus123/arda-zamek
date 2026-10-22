@@ -9,8 +9,7 @@ GitHub seznam podepíše a zveřejní na `povolene.json` (GitHub Pages). Servery
 2. U serveru přepiš `"povoleno"` na `"zamceno"` nebo zpět.
 3. Dole „Commit changes“. Do pár minut je nový seznam venku: zamčený server odpojí hráče, uloží svět a vypne se.
 
-Stejně se zamykají osobní licence (část `licence`). `platnost_hodin` říká, jak dlouho server
-poběží bez spojení s tímto seznamem.
+`platnost_hodin` říká, jak dlouho server poběží bez spojení s tímto seznamem.
 
 ## Přidat nebo změnit server
 

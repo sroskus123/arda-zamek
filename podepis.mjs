@@ -42,7 +42,7 @@ const stavy = JSON.parse(readFileSync("stavy.json", "utf8"));
 if (!(typeof stavy.platnost_hodin === "number" && stavy.platnost_hodin > 0 && stavy.platnost_hodin <= 24 * 365)) {
     chyba("stavy.json: platnost_hodin musí být kladné číslo hodin");
 }
-for (const cast of ["servery", "licence"]) {
+for (const cast of ["servery"]) {
     const mapa = stavy[cast] ?? {};
     if (typeof mapa !== "object" || Array.isArray(mapa)) chyba(`stavy.json: ${cast} musí být objekt id → stav`);
     for (const [id, stav] of Object.entries(mapa)) {
@@ -57,7 +57,6 @@ const podepsaneStavy = {
     vydano: Math.floor(Date.now() / 1000),
     platnost_hodin: stavy.platnost_hodin,
     servery: stavy.servery ?? {},
-    licence: stavy.licence ?? {},
 };
 const stavyBajty = Buffer.from(JSON.stringify(podepsaneStavy), "utf8");
 const stavyPodpis = sign(null, stavyBajty, klicSeznamu).toString("base64");
@@ -71,5 +70,5 @@ const povolene = {
 mkdirSync("web", { recursive: true });
 writeFileSync("web/povolene.json", JSON.stringify(povolene, null, 2) + "\n");
 writeFileSync("web/index.html", "<!doctype html><meta charset=\"utf-8\"><title>ArdaZamek</title><p>Seznam povolených serverů Příběhů Ardy.\n");
-console.log(`Podepsáno: servery ${JSON.stringify(podepsaneStavy.servery)}, licence ${JSON.stringify(podepsaneStavy.licence)}, `
+console.log(`Podepsáno: servery ${JSON.stringify(podepsaneStavy.servery)}, `
     + `platnost kopie ${podepsaneStavy.platnost_hodin} h, vydáno ${new Date(podepsaneStavy.vydano * 1000).toISOString()}`);
